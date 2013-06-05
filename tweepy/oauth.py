@@ -29,11 +29,13 @@ import random
 import urlparse
 import hmac
 import binascii
+import string
 
 
 VERSION = '1.0' # Hi Blaine!
 HTTP_METHOD = 'GET'
 SIGNATURE_METHOD = 'PLAINTEXT'
+NONCE_CHARACTERS = string.ascii_letters + string.digits
 
 
 class OAuthError(RuntimeError):
@@ -62,7 +64,7 @@ def generate_timestamp():
 
 def generate_nonce(length=8):
     """Generate pseudorandom number."""
-    return ''.join([str(random.randint(0, 9)) for i in range(length)])
+    return ''.join([random.choice(NONCE_CHARACTERS) for i in range(length)])
 
 def generate_verifier(length=8):
     """Generate pseudorandom number."""
